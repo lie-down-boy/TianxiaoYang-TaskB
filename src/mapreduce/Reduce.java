@@ -12,6 +12,7 @@ public class Reduce {
         for (File f : files) {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(f));
             String line;
+            //Merge the values of the individual blocks
             while ((line=bufferedReader.readLine())!=null){
                 String passengerId=line.split(":")[0];
                 int s=Integer.parseInt(line.split(":")[1]);
@@ -25,6 +26,7 @@ public class Reduce {
             }
         }
 
+        //sort by number of flights
         ArrayList<Map.Entry<String, Integer>> list = new ArrayList<>(map.entrySet());
         Collections.sort(list, new Comparator<Map.Entry<String, Integer>>() {
             @Override

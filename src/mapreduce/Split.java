@@ -17,10 +17,12 @@ public class Split {
             bufferedWriter.write(line);
             bufferedWriter.newLine();
 
+            //in hadoop,per block is actually 128M. It is divided by 128 lines in this case
             if(row==128) {
                 bufferedWriter.flush();
                 bufferedWriter.close();
 
+                //creat a new block, different blocks have different index
                 index++;
                 row=0;
                 bufferedWriter=new BufferedWriter(new FileWriter("data\\split\\split"+index));

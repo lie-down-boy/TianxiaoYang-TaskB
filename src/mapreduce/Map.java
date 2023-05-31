@@ -22,6 +22,8 @@ class MapSubTask extends Thread{
             BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
             String line;
             HashMap<String, Integer> map = new HashMap<>();
+
+            //count the number of each passenger
             while ((line = bufferedReader.readLine())!=null){
                 String passengerId=line.split(",")[0];
                 if(map.containsKey(passengerId)){
@@ -34,7 +36,7 @@ class MapSubTask extends Thread{
             bufferedReader.close();
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("data\\splitCount\\splitCount" + index));
 
-            //shuffle
+            //shuffle process
             ArrayList<java.util.Map.Entry<String, Integer>> list = new ArrayList<>(map.entrySet());
             Collections.sort(list, new Comparator<java.util.Map.Entry<String, Integer>>() {
                 @Override
@@ -43,6 +45,7 @@ class MapSubTask extends Thread{
                 }
             });
 
+            // save the results, used in reduce phase
             for (java.util.Map.Entry<String, Integer> entry : list) {
                 String key=entry.getKey();
                 Integer value =entry.getValue();
@@ -71,6 +74,8 @@ public class Map {
         File[] files = file.listFiles();
         int index=0;
         for (File f : files) {
+
+            //create a thread for each block, the parameter includes file and the index
             MapSubTask mapSubTask = new MapSubTask(f, index);
             executorService.submit(mapSubTask);
             index++;
